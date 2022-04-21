@@ -11,7 +11,7 @@ args=parser.parse_args()
 
 print(args.file)
 if not os.path.exists(args.file):
-    sys.exit("Tragediiya!")
+    sys.exit("Something goes wrong")
 
 
 infile = args.file
@@ -22,6 +22,10 @@ inputpdf = PdfFileReader(pdf_str_file)
 parts = args.parts
 pagenum = inputpdf.numPages
 print("Number of pages in original document = {}".format(pagenum))
+
+
+#Get filename - "base" name
+basename = infile.split(".")[0]
 
 
 period = pagenum//parts
@@ -39,18 +43,34 @@ def out_part(z, c, cpartp):
         output.addPage(inputpdf.getPage(i))
         # with open("document-page%s.pdf" % cpartp, "wb") as outputStream:
     # output.write("document-page{}.pdf".format(cpartp))
-    with open("document-page{}.pdf".format(cpartp), "wb") as outputStream:
+    with open("{}-{}.pdf".format(basename, cpartp), "wb") as outputStream:
         output.write(outputStream)
             # output.write(outputStream)
             # output.write(outputStream)
 
 
+# def out_part(z, c, cpartp):
+#     output = PdfFileWriter()
+
+#     for i in range(z, c):
+#         inputpdf = PdfFileReader(pdf_str_file)
+#         # output = PdfFileWriter()
+#         output.addPage(inputpdf.getPage(i))
+#         # with open("document-page%s.pdf" % cpartp, "wb") as outputStream:
+#     # output.write("document-page{}.pdf".format(cpartp))
+#     with open("document-page{}.pdf".format(cpartp), "wb") as outputStream:
+#         output.write(outputStream)
+#             # output.write(outputStream)
+#             # output.write(outputStream)
 
 
-while n < (pagenum-period) :
+
+print("Current limit {}".format(pagenum-period))
+
+while m<(pagenum-period):
     n=n+m
     m=m+period
-    print("Period {} - {}".format(n, m))
+    print("Period {} - {} . Limit is  {}".format(n, m, pagenum-period))
     out_part(n, m, cpart)
     cpart=cpart+1
 
